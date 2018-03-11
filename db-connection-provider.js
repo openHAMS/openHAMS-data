@@ -1,5 +1,7 @@
 'use strict';
 
+const debug = require('debug')('openHAMS-data');
+
 const Influx = require('influx');
 
 const influx = new Influx.InfluxDB({
@@ -49,7 +51,8 @@ exports.getConnection = function () {
             }
         })
         .catch(err => {
-            console.error(`Error creating Influx database!`);
+            debug(`Error creating Influx database!`);
+            debug(err);
         });
     return influx;
 };

@@ -1,5 +1,7 @@
 'use strict';
 
+const debug = require('debug')('openHAMS-data');
+
 const micro = require('micro');
 const microrouter = require('microrouter');
 const path = require('path');
@@ -17,7 +19,7 @@ const dbHandler = (() => {
 const service = microrouter.router(
     microrouter.get('/:cardname/extremes', async (req, res) => {
         const cardname = req.params.cardname;
-        console.log(`/${req.params.cardname}/extremes`);
+        debug(`GET /${req.params.cardname}/extremes`);
         const mqttChannel = await rp({uri: `http://localhost:8000/${cardname}/channel`, simple: false})
             .then(mqttChannel => {
                 if (mqttChannel === null || mqttChannel === '') {
@@ -27,6 +29,7 @@ const service = microrouter.router(
                 return mqttChannel;
             })
             .catch((err) => {
+                debug(err);
                 micro.send(res, 500);
             });
         if (mqttChannel) {
@@ -41,7 +44,7 @@ const service = microrouter.router(
         const start = req.query.start;
         const end = req.query.end;
         const data = await dbHandler.getInfluxDataAsync(mqttChannel, start, end);
-        console.log(`/${req.params.cardname}/data`);
+        debug(`GET /${req.params.cardname}/data`);
         micro.send(res, 200, data);
     }),
     microrouter.get('/*', (req, res) => micro.send(res, 404))
@@ -49,4 +52,4 @@ const service = microrouter.router(
 
 const server = micro(service);
 server.listen(8001);
-console.log('Data service started.');
+debug('Data service started.');
