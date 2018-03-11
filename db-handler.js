@@ -1,6 +1,4 @@
-'use strict'
-
-const Influx = require('influx');
+'use strict';
 
 class db {
     constructor(connection) {
@@ -46,27 +44,21 @@ class db {
             case (duration < 0.5):
                 // 1m - raw data
                 return 0;
-                break;
             case (duration < 2.25):
                 // 1h - 1.25m
                 return 1 * res;
-                break;
             case (duration < 4.5):
                 // 3h - 3.75m
                 return 3 * res;
-                break;
             case (duration < 9):
                 // 6h - 7.5m
                 return 6 * res;
-                break;
             case (duration < 18):
                 // 12h - 15m
                 return 12 * res;
-                break;
             default:
                 // 24h - 30m
                 return 24 * res;
-                break;
         }
     }
 

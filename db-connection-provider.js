@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Influx = require('influx');
 
@@ -6,33 +6,32 @@ const influx = new Influx.InfluxDB({
     host: 'localhost',
     database: 'sensors',
     schema: [{
-            measurement: 'pressure',
-            fields: {
-                value: Influx.FieldType.FLOAT
-            },
-            tags: [
-                'room'
-            ]
+        measurement: 'pressure',
+        fields: {
+            value: Influx.FieldType.FLOAT
         },
-        {
-            measurement: 'temperature',
-            fields: {
-                value: Influx.FieldType.FLOAT
-            },
-            tags: [
-                'room'
-            ]
+        tags: [
+            'room'
+        ]
+    },
+    {
+        measurement: 'temperature',
+        fields: {
+            value: Influx.FieldType.FLOAT
         },
-        {
-            measurement: 'rgbled',
-            fields: {
-                value: Influx.FieldType.STRING
-            },
-            tags: [
-                'room'
-            ]
-        }
-    ]
+        tags: [
+            'room'
+        ]
+    },
+    {
+        measurement: 'rgbled',
+        fields: {
+            value: Influx.FieldType.STRING
+        },
+        tags: [
+            'room'
+        ]
+    }]
 });
 
 
